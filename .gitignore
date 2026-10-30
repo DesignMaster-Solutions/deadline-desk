@@ -1,2 +1,5 @@
 node_modules/
 .env
+video/s*
+video/rovo-*.png
+video/list.txt

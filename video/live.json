@@ -1,0 +1,199 @@
+{
+ "issues": [
+  {
+   "key": "LEG-1",
+   "summary": "Contestação - Silva x Banco Horizonte (0801234-55.2026.8.26.0100)",
+   "duedate": "2026-11-25",
+   "labels": [
+    "intimacao-2026-11-03",
+    "prazo15"
+   ],
+   "done": false
+  },
+  {
+   "key": "LEG-2",
+   "summary": "Apelação - Construtora Alvorada x Prefeitura de Campinas",
+   "duedate": "2026-11-30",
+   "labels": [
+    "intimacao-2026-11-05",
+    "prazo15"
+   ],
+   "done": false
+  },
+  {
+   "key": "LEG-3",
+   "summary": "Embargos de declaração - Ferreira x Ferreira",
+   "duedate": "2027-01-22",
+   "labels": [
+    "intimacao-2026-12-15",
+    "prazo5"
+   ],
+   "done": false
+  },
+  {
+   "key": "LEG-4",
+   "summary": "Réplica - Oliveira Comércio x Transportes Rota Sul",
+   "duedate": "2027-01-04",
+   "labels": [
+    "intimacao-2026-12-10",
+    "prazo15"
+   ],
+   "done": false
+  },
+  {
+   "key": "LEG-5",
+   "summary": "Recurso inominado - Município de Santos (prazo em dobro)",
+   "duedate": "2026-11-19",
+   "labels": [
+    "dobro",
+    "intimacao-2026-11-09",
+    "prazo10"
+   ],
+   "done": false
+  },
+  {
+   "key": "LEG-6",
+   "summary": "Contrarrazões - Mendes x Seguradora Atlântica",
+   "duedate": null,
+   "labels": [
+    "dje",
+    "intimacao-2026-11-06",
+    "prazo15"
+   ],
+   "done": false
+  },
+  {
+   "key": "LEG-7",
+   "summary": "Manifestação sobre laudo pericial - Costa x Hospital Vida",
+   "duedate": "2026-12-04",
+   "labels": [
+    "dje",
+    "intimacao-2026-11-11",
+    "prazo15"
+   ],
+   "done": false
+  },
+  {
+   "key": "LEG-8",
+   "summary": "Cumprimento de sentença - impugnação (sem etiqueta de intimação)",
+   "duedate": "2026-11-24",
+   "labels": [
+    "prazo15"
+   ],
+   "done": false
+  }
+ ],
+ "rows": [
+  {
+   "key": "LEG-1",
+   "summary": "Contestação - Silva x Banco Horizonte (0801234-55.2026.8.26.0100)",
+   "status": "OK",
+   "jiraDue": "2026-11-25",
+   "legalDue": "2026-11-25",
+   "firstDay": "2026-11-04"
+  },
+  {
+   "key": "LEG-2",
+   "summary": "Apelação - Construtora Alvorada x Prefeitura de Campinas",
+   "status": "DUE_DATE_TOO_LATE",
+   "jiraDue": "2026-11-30",
+   "legalDue": "2026-11-27",
+   "firstDay": "2026-11-06"
+  },
+  {
+   "key": "LEG-3",
+   "summary": "Embargos de declaração - Ferreira x Ferreira",
+   "status": "OK",
+   "jiraDue": "2027-01-22",
+   "legalDue": "2027-01-22",
+   "firstDay": "2026-12-16"
+  },
+  {
+   "key": "LEG-4",
+   "summary": "Réplica - Oliveira Comércio x Transportes Rota Sul",
+   "status": "DUE_DATE_EARLY",
+   "jiraDue": "2027-01-04",
+   "legalDue": "2027-02-02",
+   "firstDay": "2026-12-11"
+  },
+  {
+   "key": "LEG-5",
+   "summary": "Recurso inominado - Município de Santos (prazo em dobro)",
+   "status": "DUE_DATE_EARLY",
+   "jiraDue": "2026-11-19",
+   "legalDue": "2026-12-08",
+   "firstDay": "2026-11-10"
+  },
+  {
+   "key": "LEG-6",
+   "summary": "Contrarrazões - Mendes x Seguradora Atlântica",
+   "status": "MISSING_DUE_DATE",
+   "jiraDue": null,
+   "legalDue": "2026-12-01",
+   "firstDay": "2026-11-10"
+  },
+  {
+   "key": "LEG-7",
+   "summary": "Manifestação sobre laudo pericial - Costa x Hospital Vida",
+   "status": "OK",
+   "jiraDue": "2026-12-04",
+   "legalDue": "2026-12-04",
+   "firstDay": "2026-11-13"
+  },
+  {
+   "key": "LEG-8",
+   "status": "INCOMPLETE",
+   "why": "needs labels prazo<N> and intimacao-YYYY-MM-DD"
+  }
+ ],
+ "example": {
+  "start": "2026-10-29",
+  "publication": null,
+  "firstDay": "2026-10-30",
+  "dueDate": "2026-11-23",
+  "businessDays": 15,
+  "doubled": false,
+  "skipped": [
+   {
+    "date": "2026-10-31",
+    "reason": "Sábado"
+   },
+   {
+    "date": "2026-11-01",
+    "reason": "Domingo"
+   },
+   {
+    "date": "2026-11-02",
+    "reason": "Finados"
+   },
+   {
+    "date": "2026-11-07",
+    "reason": "Sábado"
+   },
+   {
+    "date": "2026-11-08",
+    "reason": "Domingo"
+   },
+   {
+    "date": "2026-11-14",
+    "reason": "Sábado"
+   },
+   {
+    "date": "2026-11-15",
+    "reason": "Domingo"
+   },
+   {
+    "date": "2026-11-20",
+    "reason": "Consciência Negra"
+   },
+   {
+    "date": "2026-11-21",
+    "reason": "Sábado"
+   },
+   {
+    "date": "2026-11-22",
+    "reason": "Domingo"
+   }
+  ]
+ }
+}
