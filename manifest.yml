@@ -11,11 +11,9 @@ modules:
       function: computeDeadlineFn
       actionVerb: GET
       description: >
-        Computes the due date of a Brazilian civil procedure deadline
-        (CPC/2015): business days only, start day excluded, national holidays
-        including Carnaval, Good Friday and Corpus Christi, the Dec 20 - Jan 20
-        recess and DJe publication rules. Returns the due date and every skipped
-        day with the legal reason.
+        Computes a Brazilian civil procedure due date (CPC/2015): business days,
+        national holidays, Dec 20-Jan 20 recess and DJe publication. Returns the
+        due date and each skipped day with its legal reason.
       inputs:
         startDate:
           title: Intimation date
@@ -45,10 +43,9 @@ modules:
       function: auditDeadlinesFn
       actionVerb: GET
       description: >
-        Reads the Jira issues of a legal project labeled prazo<N> and
-        intimacao-YYYY-MM-DD and compares each issue due date with the legal due
-        date. Flags DUE_DATE_TOO_LATE, MISSING_DUE_DATE, OVERDUE, DUE_DATE_EARLY
-        and INCOMPLETE with the issue keys.
+        Compares the due date of Jira issues labeled prazo<N> and
+        intimacao-YYYY-MM-DD with the legal due date and flags late, missing,
+        overdue and incomplete deadlines by issue key.
       inputs:
         projectKey:
           title: Project key
