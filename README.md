@@ -25,6 +25,16 @@ Open the [installation link](https://developer.atlassian.com/console/install/700
 
 MCP endpoint: `https://mcp.atlassian.com/forge/70055465-241f-4a2a-ac0d-dd864dea7178`. A site admin enables external exposure in Atlassian Administration > Apps > Sites > your site > Connected apps.
 
+### Use the MCP tools in a Rovo agent (no code)
+
+1. Rovo Studio > Tools > Connected apps > **deadline-desk**: both tools are listed (Audit deadlines in a Jira project, Compute a Brazilian court deadline).
+2. Create an agent with only these two tools and a read-only instruction ("never compute a date yourself, always call the tool; never state a date, key or status that is not in the result").
+3. Ask: `Audit the deadlines in project LEG`.
+
+On our test site the agent invokes `Audit deadlines in a Jira project` and answers from the tool result: 3 OK, 1 MISSING_DUE_DATE (LEG-6), 1 DUE_DATE_TOO_LATE (LEG-2, Jira 2026-11-30 vs legal 2026-11-27), 2 DUE_DATE_EARLY (LEG-4, LEG-5), 1 INCOMPLETE (LEG-8), each with the smallest fix.
+
+![Rovo Studio agent auditing LEG with the Deadline Desk MCP tool](docs/rovo-studio-audit-leg.png)
+
 ## Develop
 
 ```
@@ -38,6 +48,6 @@ Scope: `read:jira-work` only. No data leaves Atlassian.
 
 ## Status
 
-Working rules + tests. Production v2.0.0 (Runs on Atlassian), shared by public installation link. Demo project LEG (8 real-shaped deadlines, `npm run seed`/`scripts/seed-demo.mjs`) on the test site: live audit returns OK, DUE_DATE_TOO_LATE, DUE_DATE_EARLY, MISSING_DUE_DATE and INCOMPLETE. Next: MCP client walkthrough video, state holidays per court.
+Working rules + tests. Production v2.0.0 (Runs on Atlassian), shared by public installation link. Demo project LEG (8 real-shaped deadlines, `npm run seed`/`scripts/seed-demo.mjs`) on the test site: live audit returns OK, DUE_DATE_TOO_LATE, DUE_DATE_EARLY, MISSING_DUE_DATE and INCOMPLETE. Rovo Studio agent built on the two MCP tools answers the LEG audit from the tool result (docs/rovo-studio-audit-leg.png). Next: walkthrough video, Devpost submission, state holidays per court.
 
 MIT license.
