@@ -38,6 +38,12 @@ modules:
           required: false
           description: True for Fazenda Pública, Defensoria or co-parties with different
             lawyers (arts. 180, 183, 186, 229).
+        federal:
+          title: Federal court
+          type: boolean
+          required: false
+          description: True for Justiça Federal, which also closes on Holy Week Wednesday and
+            Thursday, Aug 11, Nov 1 and Dec 8 (Lei 5.010/1966 art. 62).
     - key: audit-deadlines
       name: Audit deadlines in a Jira project
       function: auditDeadlinesFn

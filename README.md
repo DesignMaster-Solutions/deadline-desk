@@ -12,8 +12,10 @@ In Brazil a missed procedural deadline loses the case. The count is not calendar
 
 | Tool | Input | Output |
 |---|---|---|
-| `compute-deadline` | `startDate` (YYYY-MM-DD), `days`, `djeAvailability?`, `doubled?` | `dueDate`, `firstDay`, `publication`, every skipped day with its legal reason |
-| `audit-deadlines` | `projectKey` | for each issue labeled `prazo<N>` + `intimacao-YYYY-MM-DD` (optional `dje`, `dobro`): `OK`, `DUE_DATE_TOO_LATE`, `MISSING_DUE_DATE`, `DUE_DATE_EARLY`, `OVERDUE` or `INCOMPLETE`, Jira due date vs legal due date |
+| `compute-deadline` | `startDate` (YYYY-MM-DD), `days`, `djeAvailability?`, `doubled?`, `federal?` | `dueDate`, `firstDay`, `publication`, every skipped day with its legal reason |
+| `audit-deadlines` | `projectKey` | for each issue labeled `prazo<N>` + `intimacao-YYYY-MM-DD` (optional `dje`, `dobro`, `jf`): `OK`, `DUE_DATE_TOO_LATE`, `MISSING_DUE_DATE`, `DUE_DATE_EARLY`, `OVERDUE` or `INCOMPLETE`, Jira due date vs legal due date |
+
+`federal` (label `jf`) adds the Justiça Federal closures of Lei 5.010/1966 art. 62: Holy Week Wednesday and Thursday, Aug 11, Nov 1 and Dec 8.
 
 Example: intimation on Thu 2026-10-29, 15 business days → first day 2026-10-30, due **2026-11-23** (skips Finados 11/02, weekends and Consciência Negra 11/20).
 
@@ -52,6 +54,6 @@ Scope: `read:jira-work` only. No data leaves Atlassian.
 
 ## Status
 
-Working rules + tests. Production v2.0.0 (Runs on Atlassian), shared by public installation link. Demo project LEG (8 real-shaped deadlines, `npm run seed`/`scripts/seed-demo.mjs`) on the test site: live audit returns OK, DUE_DATE_TOO_LATE, DUE_DATE_EARLY, MISSING_DUE_DATE and INCOMPLETE. Rovo Studio agent built on the two MCP tools answers the LEG audit from the tool result (docs/rovo-studio-audit-leg.png). Demo video https://youtu.be/2X5Co6pk_dU. Next: Devpost submission, state holidays per court.
+Working rules + tests. Production v2.0.0 (Runs on Atlassian), shared by public installation link. Demo project LEG (8 real-shaped deadlines, `npm run seed`/`scripts/seed-demo.mjs`) on the test site: live audit returns OK, DUE_DATE_TOO_LATE, DUE_DATE_EARLY, MISSING_DUE_DATE and INCOMPLETE. Rovo Studio agent built on the two MCP tools answers the LEG audit from the tool result (docs/rovo-studio-audit-leg.png). Demo video https://youtu.be/2X5Co6pk_dU. Justiça Federal closures (Lei 5.010/1966) via `federal`/`jf`. Next: Devpost submission, state holidays per court.
 
 MIT license.

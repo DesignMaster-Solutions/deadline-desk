@@ -53,3 +53,20 @@ test('audit flags late, missing, incomplete and overdue', () => {
   assert.deepEqual(out.map((o) => o.status), ['OK', 'DUE_DATE_TOO_LATE', 'MISSING_DUE_DATE', 'INCOMPLETE', 'OK']);
   assert.equal(auditIssues([{ key: 'X', duedate: '2026-11-23', labels: lab, done: false }], '2026-11-24')[0].status, 'OVERDUE');
 });
+
+test('Justiça Federal closures (Lei 5.010/1966 art. 62): Holy Week Wed/Thu, Aug 11, Nov 1, Dec 8', () => {
+  // Easter 2027 = 28/03: Wed 24/03 and Thu 25/03 closed only in federal courts.
+  const state = computeDeadline({ start: '2027-03-22', days: 3 });
+  assert.equal(state.dueDate, '2027-03-25');
+  const fed = computeDeadline({ start: '2027-03-22', days: 3, federal: true });
+  assert.equal(fed.dueDate, '2027-03-30'); // 23, (24, 25 Semana Santa, 26 Sexta Santa) 29, 30
+  assert.ok(fed.skipped.some((s) => s.date === '2027-03-24' && /Lei 5.010/.test(s.reason)));
+  assert.equal(computeDeadline({ start: '2027-08-10', days: 1, federal: true }).dueDate, '2027-08-12');
+  assert.equal(computeDeadline({ start: '2027-12-07', days: 1, federal: true }).dueDate, '2027-12-09');
+});
+
+test('audit honors the jf label for federal courts', () => {
+  const lab = ['prazo3', 'intimacao-2027-03-22', 'jf'];
+  const [row] = auditIssues([{ key: 'JF-1', duedate: '2027-03-30', labels: lab, done: false }], '2027-03-01');
+  assert.equal(row.status, 'OK');
+});

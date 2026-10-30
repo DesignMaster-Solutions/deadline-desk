@@ -27,6 +27,14 @@ export function holidays(year) {
   return map;
 }
 
+// Justiça Federal only (Lei 5.010/1966 art. 62): Holy Week Wed/Thu, Aug 11, Nov 1, Dec 8.
+// Its Dec 20 - Jan 6 recess is already inside the CPC art. 220 suspension.
+export function federalClosures(year) {
+  const e = easter(year), why = 'Feriado da Justiça Federal (Lei 5.010/1966 art. 62)';
+  return Object.fromEntries([iso(addDays(e, -4)), iso(addDays(e, -3)), `${year}-08-11`, `${year}-11-01`, `${year}-12-08`]
+    .map((d) => [d, why]));
+}
+
 // Why a day does not count, or null if it is a business day. extra = court-specific closures {date: reason}.
 export function skipReason(date, extra = {}) {
   const d = typeof date === 'string' ? new Date(`${date}T00:00:00Z`) : date;
@@ -44,12 +52,16 @@ const nextBusiness = (d, extra, skipped) => {
 };
 
 /**
- * @param {{start: string, days: number, djeAvailability?: boolean, doubled?: boolean, extraClosures?: object}} p
+ * @param {{start: string, days: number, djeAvailability?: boolean, doubled?: boolean, federal?: boolean, extraClosures?: object}} p
  * start = intimation date (or DJe availability date when djeAvailability is true).
  * doubled = Fazenda Pública / Defensoria / litisconsortes com procuradores distintos (arts. 180, 183, 186, 229).
  */
-export function computeDeadline({ start, days, djeAvailability = false, doubled = false, extraClosures = {} }) {
+export function computeDeadline({ start, days, djeAvailability = false, doubled = false, federal = false, extraClosures = {} }) {
   if (!/^\d{4}-\d{2}-\d{2}$/.test(start ?? '')) throw new Error('start must be YYYY-MM-DD');
+  if (federal) { // a 365-business-day term spans at most 3 calendar years
+    const y = Number(start.slice(0, 4));
+    extraClosures = { ...federalClosures(y), ...federalClosures(y + 1), ...federalClosures(y + 2), ...extraClosures };
+  }
   const n = Number(days) * (doubled ? 2 : 1);
   if (!Number.isInteger(n) || n < 1 || n > 365) throw new Error('days must be an integer from 1 to 365');
   const skipped = [];
@@ -59,17 +71,17 @@ export function computeDeadline({ start, days, djeAvailability = false, doubled 
   let d = nextBusiness(addDays(base, 1), extraClosures, skipped); // art. 224 §3: counting starts next business day
   const firstDay = iso(d);
   for (let counted = 1; counted < n; counted++) d = nextBusiness(addDays(d, 1), extraClosures, skipped);
-  return { start, publication, firstDay, dueDate: iso(d), businessDays: n, doubled, skipped };
+  return { start, publication, firstDay, dueDate: iso(d), businessDays: n, doubled, federal, skipped };
 }
 
 // Compare what Jira says against the law. issues: [{key, summary, duedate, labels, done}]
-// Convention: label prazo<N> (e.g. prazo15), label intimacao-YYYY-MM-DD, optional labels dje, dobro.
+// Convention: label prazo<N> (e.g. prazo15), label intimacao-YYYY-MM-DD, optional labels dje, dobro, jf (federal court).
 export function auditIssues(issues, today) {
   return issues.map((i) => {
     const days = i.labels.map((l) => /^prazo(\d+)$/.exec(l)?.[1]).find(Boolean);
     const start = i.labels.map((l) => /^intimacao-(\d{4}-\d{2}-\d{2})$/.exec(l)?.[1]).find(Boolean);
     if (!days || !start) return { key: i.key, status: 'INCOMPLETE', why: 'needs labels prazo<N> and intimacao-YYYY-MM-DD' };
-    const r = computeDeadline({ start, days: Number(days), djeAvailability: i.labels.includes('dje'), doubled: i.labels.includes('dobro') });
+    const r = computeDeadline({ start, days: Number(days), djeAvailability: i.labels.includes('dje'), doubled: i.labels.includes('dobro'), federal: i.labels.includes('jf') });
     let status = 'OK';
     if (!i.duedate) status = 'MISSING_DUE_DATE';
     else if (i.duedate > r.dueDate) status = 'DUE_DATE_TOO_LATE';

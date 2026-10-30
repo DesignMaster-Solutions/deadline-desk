@@ -8,6 +8,7 @@ export async function computeDeadlineAction(payload) {
       days: Number(payload.days),
       djeAvailability: payload.djeAvailability === true || payload.djeAvailability === 'true',
       doubled: payload.doubled === true || payload.doubled === 'true',
+      federal: payload.federal === true || payload.federal === 'true',
     });
   } catch (e) {
     return { error: e.message };
