@@ -1,0 +1,10 @@
+{
+  "name": "deadline-desk",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Forge app exposing Brazilian court deadline rules and a Jira deadline audit as MCP tools (rovo:mcp).",
+  "license": "MIT",
+  "scripts": { "test": "node --test test/" },
+  "dependencies": { "@forge/api": "^6.0.0" }
+}

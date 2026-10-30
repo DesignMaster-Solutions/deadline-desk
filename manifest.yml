@@ -1,0 +1,69 @@
+modules:
+  rovo:mcp:
+    - key: deadline-desk-mcp
+      name: Deadline Desk
+      tools:
+        - compute-deadline
+        - audit-deadlines
+  action:
+    - key: compute-deadline
+      name: Compute a Brazilian court deadline
+      function: computeDeadlineFn
+      actionVerb: GET
+      description: >
+        Computes the due date of a Brazilian civil procedure deadline
+        (CPC/2015): business days only, start day excluded, national holidays
+        including Carnaval, Good Friday and Corpus Christi, the Dec 20 - Jan 20
+        recess and DJe publication rules. Returns the due date and every skipped
+        day with the legal reason.
+      inputs:
+        startDate:
+          title: Intimation date
+          type: string
+          required: true
+          description: Intimation date, or DJe availability date when djeAvailability is
+            true. YYYY-MM-DD.
+        days:
+          title: Business days
+          type: integer
+          required: true
+          description: Term in business days, for example 15.
+        djeAvailability:
+          title: Date is DJe availability
+          type: boolean
+          required: false
+          description: True when startDate is the day the act was made available in the
+            electronic gazette.
+        doubled:
+          title: Doubled term
+          type: boolean
+          required: false
+          description: True for Fazenda Pública, Defensoria or co-parties with different
+            lawyers (arts. 180, 183, 186, 229).
+    - key: audit-deadlines
+      name: Audit deadlines in a Jira project
+      function: auditDeadlinesFn
+      actionVerb: GET
+      description: >
+        Reads the Jira issues of a legal project labeled prazo<N> and
+        intimacao-YYYY-MM-DD and compares each issue due date with the legal due
+        date. Flags DUE_DATE_TOO_LATE, MISSING_DUE_DATE, OVERDUE, DUE_DATE_EARLY
+        and INCOMPLETE with the issue keys.
+      inputs:
+        projectKey:
+          title: Project key
+          type: string
+          required: true
+          description: The Jira project key, for example LEG.
+  function:
+    - key: computeDeadlineFn
+      handler: index.computeDeadlineAction
+    - key: auditDeadlinesFn
+      handler: index.auditDeadlines
+app:
+  runtime:
+    name: nodejs24.x
+  id: ari:cloud:ecosystem::app/70055465-241f-4a2a-ac0d-dd864dea7178
+permissions:
+  scopes:
+    - read:jira-work
