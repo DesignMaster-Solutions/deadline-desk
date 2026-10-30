@@ -35,6 +35,10 @@ On our test site the agent invokes `Audit deadlines in a Jira project` and answe
 
 ![Rovo Studio agent auditing LEG with the Deadline Desk MCP tool](docs/rovo-studio-audit-leg.png)
 
+## Demo video
+
+[Deadline Desk demo, 2:34](https://youtu.be/2X5Co6pk_dU): live audit of project LEG, the Rovo agent calling the MCP tool, and the test suite (file: `docs/demo.mp4`, built by `video/make.py` from live Jira data).
+
 ## Develop
 
 ```
@@ -48,6 +52,6 @@ Scope: `read:jira-work` only. No data leaves Atlassian.
 
 ## Status
 
-Working rules + tests. Production v2.0.0 (Runs on Atlassian), shared by public installation link. Demo project LEG (8 real-shaped deadlines, `npm run seed`/`scripts/seed-demo.mjs`) on the test site: live audit returns OK, DUE_DATE_TOO_LATE, DUE_DATE_EARLY, MISSING_DUE_DATE and INCOMPLETE. Rovo Studio agent built on the two MCP tools answers the LEG audit from the tool result (docs/rovo-studio-audit-leg.png). Next: walkthrough video, Devpost submission, state holidays per court.
+Working rules + tests. Production v2.0.0 (Runs on Atlassian), shared by public installation link. Demo project LEG (8 real-shaped deadlines, `npm run seed`/`scripts/seed-demo.mjs`) on the test site: live audit returns OK, DUE_DATE_TOO_LATE, DUE_DATE_EARLY, MISSING_DUE_DATE and INCOMPLETE. Rovo Studio agent built on the two MCP tools answers the LEG audit from the tool result (docs/rovo-studio-audit-leg.png). Demo video https://youtu.be/2X5Co6pk_dU. Next: Devpost submission, state holidays per court.
 
 MIT license.
