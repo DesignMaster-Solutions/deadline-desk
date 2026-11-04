@@ -1,5 +1,9 @@
 import api, { route } from '@forge/api';
+import ResolverModule from '@forge/resolver';
 import { computeDeadline, auditIssues } from './deadline.js';
+
+// @forge/resolver is CommonJS with exports.default: an ESM default import gets the whole module object.
+const Resolver = ResolverModule.default ?? ResolverModule;
 
 export async function computeDeadlineAction(payload) {
   try {
@@ -36,3 +40,8 @@ export async function auditDeadlines(payload) {
     return { error: e.message };
   }
 }
+
+// Project page: the same audit-deadlines result the MCP tool returns, so the page and Rovo cannot disagree.
+const resolver = new Resolver();
+resolver.define('overview', ({ context }) => auditDeadlines({ projectKey: context.extension?.project?.key }));
+export const handler = resolver.getDefinitions();

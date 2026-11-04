@@ -81,12 +81,13 @@ export function auditIssues(issues, today) {
     const days = i.labels.map((l) => /^prazo(\d+)$/.exec(l)?.[1]).find(Boolean);
     const start = i.labels.map((l) => /^intimacao-(\d{4}-\d{2}-\d{2})$/.exec(l)?.[1]).find(Boolean);
     if (!days || !start) return { key: i.key, status: 'INCOMPLETE', why: 'needs labels prazo<N> and intimacao-YYYY-MM-DD' };
-    const r = computeDeadline({ start, days: Number(days), djeAvailability: i.labels.includes('dje'), doubled: i.labels.includes('dobro'), federal: i.labels.includes('jf') });
+    const term = { days: Number(days), start, dje: i.labels.includes('dje'), doubled: i.labels.includes('dobro'), federal: i.labels.includes('jf') };
+    const r = computeDeadline({ start, days: term.days, djeAvailability: term.dje, doubled: term.doubled, federal: term.federal });
     let status = 'OK';
     if (!i.duedate) status = 'MISSING_DUE_DATE';
     else if (i.duedate > r.dueDate) status = 'DUE_DATE_TOO_LATE';
     else if (i.duedate < r.dueDate) status = 'DUE_DATE_EARLY';
     if (!i.done && r.dueDate < today) status = 'OVERDUE';
-    return { key: i.key, summary: i.summary, status, jiraDue: i.duedate ?? null, legalDue: r.dueDate, firstDay: r.firstDay };
+    return { key: i.key, summary: i.summary, status, jiraDue: i.duedate ?? null, legalDue: r.dueDate, firstDay: r.firstDay, term };
   });
 }

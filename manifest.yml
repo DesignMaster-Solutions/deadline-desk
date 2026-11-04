@@ -58,11 +58,23 @@ modules:
           type: string
           required: true
           description: The Jira project key, for example LEG.
+  jira:projectPage:
+    - key: deadline-desk-page
+      resource: main
+      resolver:
+        function: resolver
+      render: native
+      title: Deadline Desk
   function:
+    - key: resolver
+      handler: index.handler
     - key: computeDeadlineFn
       handler: index.computeDeadlineAction
     - key: auditDeadlinesFn
       handler: index.auditDeadlines
+resources:
+  - key: main
+    path: src/frontend/index.jsx
 app:
   runtime:
     name: nodejs24.x
