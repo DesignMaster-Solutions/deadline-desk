@@ -32,6 +32,7 @@ test('page rows: worst first, each with its lozenge, both dates and the smallest
   assert.equal(late.legal, '2026-11-23 (19 days left)');
   assert.equal(late.fix, 'Move the Jira due date back to 2026-11-23');
   assert.equal(rows[1].fix, 'Set the Jira due date to 2026-11-23');
+  assert.equal(rows[2].issue, 'LEG-4 Sem etiqueta');
   assert.equal(rows[2].legal, '-');
   assert.match(rows[2].fix, /prazo<N> and intimacao-YYYY-MM-DD/);
   assert.equal(rows[3].term, '15 business days, doubled to 30, from intimation 2026-10-29');

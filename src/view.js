@@ -32,7 +32,7 @@ function fix(r) {
     case 'OVERDUE': return `Legal due date passed on ${r.legalDue} and the issue is still open`;
     case 'DUE_DATE_TOO_LATE': return `Move the Jira due date back to ${r.legalDue}`;
     case 'MISSING_DUE_DATE': return `Set the Jira due date to ${r.legalDue}`;
-    case 'INCOMPLETE': return 'Add the labels prazo<N> and intimacao-YYYY-MM-DD';
+    case 'INCOMPLETE': return 'Add labels prazo<N> and intimacao-YYYY-MM-DD';
     case 'DUE_DATE_EARLY': return `Safe, earlier than the legal limit ${r.legalDue}`;
     default: return 'none';
   }

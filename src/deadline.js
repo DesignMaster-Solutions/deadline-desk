@@ -80,7 +80,7 @@ export function auditIssues(issues, today) {
   return issues.map((i) => {
     const days = i.labels.map((l) => /^prazo(\d+)$/.exec(l)?.[1]).find(Boolean);
     const start = i.labels.map((l) => /^intimacao-(\d{4}-\d{2}-\d{2})$/.exec(l)?.[1]).find(Boolean);
-    if (!days || !start) return { key: i.key, status: 'INCOMPLETE', why: 'needs labels prazo<N> and intimacao-YYYY-MM-DD' };
+    if (!days || !start) return { key: i.key, summary: i.summary, status: 'INCOMPLETE', why: 'needs labels prazo<N> and intimacao-YYYY-MM-DD' };
     const term = { days: Number(days), start, dje: i.labels.includes('dje'), doubled: i.labels.includes('dobro'), federal: i.labels.includes('jf') };
     const r = computeDeadline({ start, days: term.days, djeAvailability: term.dje, doubled: term.doubled, federal: term.federal });
     let status = 'OK';
